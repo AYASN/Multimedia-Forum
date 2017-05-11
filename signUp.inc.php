@@ -21,9 +21,9 @@
 			exit();
 		}
 		else {
-			// $encryptedPwd = password_hash($pwd, PASSWORD_DEFAULT);
+			$encryptedPwd = password_hash($pwd, PASSWORD_DEFAULT);
 			$sql = "INSERT INTO users (first, last, uid, pwd)
-			VALUES ('$first', '$last', '$uid', '$pwd')";
+			VALUES ('$first', '$last', '$uid', '$encryptedPwd')";
 			$result = mysqli_query($conn, $sql);
 
 			header("Location: index.php");

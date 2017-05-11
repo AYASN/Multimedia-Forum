@@ -38,7 +38,6 @@
 
 <br><br>
 
-<!-- <iframe src="https://www.youtube.com/embed/v=7y8XK4x2m6k" frameborder="0" allowfullscreen></iframe> -->
 <object data="http://www.youtube.com/embed/qVU3V0A05k8"
    width="560" height="315"></object>
 

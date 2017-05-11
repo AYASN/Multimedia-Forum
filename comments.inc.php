@@ -125,13 +125,13 @@ function getLogin($conn) {
 		$uid = mysqli_real_escape_string($conn, $_POST['uid']);
 		$pwd = mysqli_real_escape_string($conn, $_POST['pwd']);
 
-		$stmt = $conn->prepare("SELECT * FROM users WHERE uid=? AND pwd=?");
-		$stmt->bind_param("ss", $username, $password);
+		$stmt = $conn->prepare("SELECT * FROM users WHERE uid=?");
+		$stmt->bind_param("s", $username);
 
 		// we can execute this part multiple times with same prepared stmt
 		// and different (uid, pwd), for ex. logging mutilple users in same time
 		$username = $uid;
-		$password = $pwd;
+		// $password = $pwd;
 		$stmt->execute();
 
 		//$result = mysqli_query($conn, $sql);
@@ -141,10 +141,18 @@ function getLogin($conn) {
 
 		if ($rowNum > 0) {
 			if ($row = mysqli_fetch_assoc($result)) {
-				$_SESSION['id'] = $row['id'];
-				$_SESSION['uid'] = $row['uid'];
-				header("Location: index.php?loginSuccess");
-				exit();
+				$hashPwd = $row['pwd'];
+				$hash = password_verify($pwd, $hashPwd);
+
+				if ($hash == 0) {
+					header("Location: index.php?loginFailed");
+					exit();
+				} else {
+					$_SESSION['id'] = $row['id'];
+					$_SESSION['uid'] = $row['uid'];
+					header("Location: index.php?loginSuccess");
+					exit();
+				}
 			}
 		} else {
 				header("Location: index.php?loginFailed");
